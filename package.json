@@ -1,12 +1,9 @@
 {
-  "name": "trello-api",
-  "type": "module",
-  "version": "1.0.0",
-  "description": "trello-clone-mern",
-  "main": "server.js",
-  "author": "ramu",
-  "license": "MIT",
+  "name": "server",
   "private": true,
+  "version": "1.0.0",
+  "author": "ramu",
+  "description": "trello-clone-api",
   "scripts": {
     "lint": "eslint src --ext js --report-unused-disable-directives --max-warnings 0",
     "clean": "rm -rf build && mkdir build",
@@ -17,7 +14,10 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.22.10",
-    "express": "^4.18.2"
+    "async-exit-hook": "^2.0.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "mongodb": "^6.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.22.10",
