@@ -1,6 +1,7 @@
 import Joi from 'joi'
 import { StatusCodes } from 'http-status-codes'
 import ApiError from '~/utils/ApiError'
+import { BOARD_TYPES } from '~/utils/constants'
 
 const createNew = () => {
   return async (req, res, next) => {
@@ -27,6 +28,15 @@ const createNew = () => {
           'string.trim':
             'Description cannot have leading or trailing whitespace',
           'any.required': 'Description is required'
+        }),
+      type: Joi.string()
+        .valid(BOARD_TYPES.PRIVATE, BOARD_TYPES.PUBLIC)
+        .required()
+        .messages({
+          'string.base': 'Type must be a string',
+          'string.empty': 'Type cannot be empty',
+          'any.only': 'Type must be either "private" or "public"',
+          'any.required': 'Type is required'
         })
     })
 
