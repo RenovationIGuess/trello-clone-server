@@ -1,4 +1,5 @@
 /* eslint-disable no-useless-catch */
+import { boardModel } from '~/models/boardModel'
 import { columnModel } from '~/models/columnModel'
 
 const createNew = async reqBody => {
@@ -13,6 +14,13 @@ const createNew = async reqBody => {
     const getCreatedColumn = await columnModel.findOneById(
       createdColumn.insertedId
     )
+
+    if (getCreatedColumn) {
+      getCreatedColumn.cards = []
+
+      // Update columnOrderIds in boards collection
+      await boardModel.pushColumnOrderIds(getCreatedColumn)
+    }
 
     // Other logics: send email, push notification, etc.
 

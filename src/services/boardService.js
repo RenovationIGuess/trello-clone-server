@@ -50,7 +50,7 @@ const getDetails = async boardId => {
     resBoard.columns.forEach(column => {
       column.cards = resBoard.cards.filter(
         // Alternative: use equal to check id
-        card => card.columnId.toString() === column.columnId.toString()
+        card => card.columnId.toString() === column._id.toString()
       )
     })
 

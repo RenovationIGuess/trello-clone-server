@@ -96,10 +96,39 @@ const getDetails = async id => {
   }
 }
 
+// Add new column to last of the array
+const pushColumnOrderIds = async column => {
+  try {
+    const result = await GET_DB()
+      .collection(BOARD_COLLECTION_NAME)
+      .findOneAndUpdate(
+        {
+          _id: new ObjectId(column.boardId)
+          // _destroy: false
+        },
+        {
+          $push: {
+            columnOrderIds: new ObjectId(column._id)
+          }
+        },
+        {
+          // Return the updated document
+          returnDocument: 'after'
+        }
+      )
+
+    // findOneAndUpdate return the value
+    return result.value
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 export const boardModel = {
   BOARD_COLLECTION_NAME,
   BOARD_COLLECTION_SCHEMA,
   createNew,
   findOneById,
-  getDetails
+  getDetails,
+  pushColumnOrderIds
 }

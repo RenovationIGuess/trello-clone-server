@@ -37,9 +37,14 @@ const validateBeforeCreate = async data => {
 const createNew = async data => {
   try {
     const validData = await validateBeforeCreate(data)
+    const newData = {
+      ...validData,
+      boardId: new ObjectId(validData.boardId),
+      columnId: new ObjectId(validData.columnId)
+    }
     const createdCard = await GET_DB()
       .collection(CARD_COLLECTION_NAME)
-      .insertOne(validData)
+      .insertOne(newData)
 
     return createdCard
   } catch (error) {
