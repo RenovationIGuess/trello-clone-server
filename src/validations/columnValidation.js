@@ -36,6 +36,42 @@ const createNew = async (req, res, next) => {
   }
 }
 
+const update = async (req, res, next) => {
+  const data = Joi.object({
+    title: Joi.string().min(3).max(30).trim().strict().messages({
+      'string.base': 'Title must be a string',
+      'string.empty': 'Title cannot be empty',
+      'string.min': 'Title must have at least {#limit} characters',
+      'string.max': 'Title must have at most {#limit} characters',
+      'string.trim': 'Title cannot have leading or trailing whitespace'
+    }),
+    // boardId: Joi.string()
+    //   .pattern(OBJECT_ID_RULE)
+    //   .message(OBJECT_ID_RULE_MESSAGE),
+    cardOrderIds: Joi.array().items(
+      Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE)
+    )
+  })
+
+  try {
+    await data.validateAsync(req.body, {
+      // Return full error message (if exists)
+      abortEarly: false,
+      allowUnknown: true
+    })
+
+    next()
+  } catch (error) {
+    const errorMessage = new Error(error).message
+    const customError = new ApiError(
+      StatusCodes.UNPROCESSABLE_ENTITY,
+      errorMessage
+    )
+    next(customError)
+  }
+}
+
 export const columnValidation = {
-  createNew
+  createNew,
+  update
 }
